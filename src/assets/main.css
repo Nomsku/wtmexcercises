@@ -120,7 +120,7 @@ figure > img{
     font-family: 'Karla', sans-serif;
 }
 .card{
-    height: 10rem;
+    height: 14rem;
     display: grid;
     border: 1px solid black;
     border-radius: 5px;
