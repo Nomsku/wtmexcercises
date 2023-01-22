@@ -1,12 +1,15 @@
 "use strict";
         
 const timeText = document.querySelector("#timer");
-let randomNumber = Math.floor(Math.random() (max - min + 1) + min);
-
+const text = document.querySelector("#text");
+const input = document.querySelector("#inputField");
 const guesses = document.querySelector('.guesses');
 const lastResult = document.querySelector('.lastResult');
 const lowOrHi = document.querySelector('.lowOrHi');
-        
+const startAgain = document.querySelector("#startAgain");
+const computerGuess = document.querySelector("#computerButton");
+const computerConfirm = document.querySelector("#computerConfirm");
+const message = document.querySelector("#message");        
 const guessSubmit = document.querySelector('.guessSubmit');
 const guessField = document.querySelector('.guessField');
 const min = 0;
@@ -19,10 +22,11 @@ let timerStarted = false;
 let interval = 0;
 let numberOfGuesses = 0;
 let guessedNumbers = [];
-        
+let randomNumber = Math.floor(Math.random()*(max - min + 1) + min); 
+      
 
         const checkGuess = () => {
-        const userGuess = Number(guessField.value);
+        const userGuess = Number(guessField.value); 
         if (guessCount === 1) {
             guesses.textContent = 'Previous guesses: ';
         }
@@ -40,7 +44,9 @@ let guessedNumbers = [];
             clearInterval(interval);
             timerStarted = false;
             setGameOver();
-        } else if (guessCount === 10) {
+            return "correct"; 
+        } 
+        else if (guessCount === 10) {
             lastResult.textContent = '!!!GAME OVER!!!';
             lowOrHi.textContent = '';
             setGameOver();
@@ -52,10 +58,13 @@ let guessedNumbers = [];
             if (userGuess < randomNumber) {
             lowOrHi.textContent = `Too low, guesses left: ${
         maxGuesses - numberOfGuesses
+        
       }`;
-            } else if (userGuess > randomNumber) {
+      return "too low";
+            
+    } else if (userGuess > randomNumber) {
             lowOrHi.textContent = 'Last guess was too high!';
-            }
+            }return "too high";
             
         }
         
@@ -65,16 +74,71 @@ let guessedNumbers = [];
         guessField.value = '';
         guessField.focus();
         
-        }
+        };
+        const checkGuessComp = (userGuess) => {
+            
+            if (guessCount === 1) {
+                guesses.textContent = 'Previous guesses: ';
+            }
+            guesses.textContent += `${userGuess} `;
+            if (!timerStarted) {
+        timerStarted = true;
+        clearInterval(interval);
+        interval = setInterval(timer, 1000);
+      }
+    
+            if (userGuess === randomNumber) {
+                lastResult.textContent = `Congratulations! You got it right! It took you ${numberOfGuesses + 1} guesses and ${time} seconds.`;
+                lastResult.style.backgroundColor = 'green';
+                lowOrHi.textContent = '';
+                clearInterval(interval);
+                timerStarted = false;
+                setGameOver();
+                return "correct"; 
+            } 
+            else if (guessCount === 10) {
+                lastResult.textContent = '!!!GAME OVER!!!';
+                lowOrHi.textContent = '';
+                setGameOver();
+            } else {
+                lastResult.textContent = 'Wrong!';
+                lastResult.style.backgroundColor = 'red';
+                numberOfGuesses++;
+                guessedNumbers.push(userGuess);
+                if (userGuess < randomNumber) {
+                lowOrHi.textContent = `Too low, guesses left: ${
+            maxGuesses - numberOfGuesses
+            
+          }`;
+          return "too low";
+                
+        } else if (userGuess > randomNumber) {
+                lowOrHi.textContent = 'Last guess was too high!';
+                }return "too high";
+                
+            }
+            
+      
+    
+            guessCount++;
+            guessField.value = '';
+            guessField.focus();
+            
+            };
+
+
         guessSubmit.addEventListener('click', checkGuess);
         const setGameOver = () => {
         guessField.disabled = true;
         guessSubmit.disabled = true;
+        if(typeof(resetButton) == 'undefined' && resetButton == null){
         resetButton = document.createElement('button');
         resetButton.textContent = 'Start new game';
         document.body.append(resetButton);
-        resetButton.addEventListener('click', resetGame);
         }
+        resetButton.style.display = "inline";
+        resetButton.addEventListener('click', resetGame);
+        };
         const resetGame = () => {
         guessCount = 1;
 
@@ -83,8 +147,8 @@ let guessedNumbers = [];
             resetPara.textContent = '';
         }
 
-        resetButton.parentNode.removeChild(resetButton);
-
+        resetButton.style.display = "none";
+        const userGuess = Number(guessField.value);
         guessField.disabled = false;
         guessSubmit.disabled = false;
         guessField.value = '';
@@ -97,7 +161,7 @@ let guessedNumbers = [];
         time=0;
         numberOfGuesses = 0;
         guessedNumbers.push(userGuess);
-        }
+        };
         
 const timer = () => {
   time++;
@@ -128,7 +192,7 @@ const runAlgorithm = (times) => {
         lastGuess = guess;
   
         // Check the guess
-        let result = checkGuess(guess, true);
+        let result = checkGuessComp(guess, true);
         currentNumberOfGuesses++;
         guessedNumbers.push(guess);
   
@@ -151,7 +215,7 @@ const runAlgorithm = (times) => {
     currentMin = min;
     currentMax = max;
     currentNumberOfGuesses = 0;
-    answer = Math.floor(Math.random() * (max - min + 1) + min);
+    randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
   }
 
   // If the algorithm was run only once, display the results
@@ -172,15 +236,11 @@ const runAlgorithm = (times) => {
     timeText.textContent = `The algorithm took minimum of ${min} guesses and maximum of ${max} guesses.`;
   }
 
-  // Change the ui
-  message.classList.add("hidden");
-  input.classList.add("hidden");
-  computerConfirm.classList.add("hidden");
-  startAgain.classList.remove("hidden");
+  
 };
 
 // Check the player's guess
-submit.addEventListener("click", () => {
+guessSubmit.addEventListener("click", () => {
   message.textContent = "";
   const guess = parseInt(input.value);
   input.value = "";
@@ -193,19 +253,12 @@ submit.addEventListener("click", () => {
 
   // Check if guess is valid then check if it is correct
   if (checkValid(guess)) {
-    checkGuess(guess, false);
+    checkGuessComp(guess, false);
   }
 });
 
 // Show ui to enter how many times the algorithm should run
-computerGuess.addEventListener("click", () => {
-  submit.classList.add("hidden");
-  computerGuess.classList.add("hidden");
-  timeText.classList.add("hidden");
-  computerConfirm.classList.remove("hidden");
-  input.attributes.placeholder.value = "Enter a number";
-  text.textContent = "How many times to run the algorithm?";
-});
+
 
 // Check how many times to run the algorithm
 computerConfirm.addEventListener("click", () => {
@@ -231,25 +284,4 @@ computerConfirm.addEventListener("click", () => {
   }
 
   runAlgorithm(times);
-});
-
-// Start game again
-startAgain.addEventListener("click", () => {
-  // hide and show elements
-  enterGuess.classList.remove("hidden");
-  message.classList.remove("hidden");
-  computerGuess.classList.remove("hidden");
-  text.classList.remove("hidden");
-  input.classList.remove("hidden");
-  submit.classList.remove("hidden");
-  startAgain.classList.add("hidden");
-  computerGuess.classList.remove("hidden");
-
-  // reset text
-  text.textContent = `Guess a number between ${min} and ${max}. You have ${maxGuesses} guesses in total. Timer starts from first guess.`;
-  timeText.textContent = "Time spent: 0 seconds";
-  message.textContent = "";
-
-  // pick a new random number
-  answer = Math.floor(Math.random() * (max - min + 1) + min);
 });

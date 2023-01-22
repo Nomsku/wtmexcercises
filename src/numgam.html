@@ -1,31 +1,33 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-
-    <title>Number guessing game</title>
-    <script src="numgam.js" defer></script>
-    <link rel="stylesheet" href="assets/numgam.css">
-  </head>
-
-  <body>
-    <h1>Number guessing game</h1>
-
-    <p>We have selected a random number between 1 and 100. See if you can guess it in 10 turns or fewer. We'll tell you if your guess was too high or too low.</p>
-
-    <div class="form">
-      <label for="guessField">Enter a guess: </label>
-      <input type="number" min="1" max="100" required id="guessField" class="guessField">
-      <input type="submit" value="Submit" class="guessSubmit">
-      <button id="computerButton">Let computer guess</button>
+  <html lang="en-us">
+    <head>
+      <meta charset="utf-8">
+  
+      <title>Number guessing game</title>
+      <script src="numgam.js" defer></script>
+      <link rel="stylesheet" href="assets/numgam.css">
+    </head>
+  
+    <body>
+      <h1>Number guessing game</h1>
+  
+      <p id="text">We have selected a random number between 1 and 100. See if you can guess it in 10 turns or fewer. We'll tell you if your guess was too high or too low.</p>
+      <input type="text" id="inputField" placeholder="Enter a guess" />
+      <div class="form">
+        <label for="guessField">Enter a guess: </label>
+        <input type="number" min="1" max="100" required id="guessField" class="guessField">
+        <input type="submit" value="Submit" class="guessSubmit">
+        <button id="computerButton">Let computer guess</button>
         <button id="computerConfirm" class="hidden">confirm</button>
-        <button class="hidden" id="startAgain">Start again</button>
+        
     </div>
-    <p id="timer">Time: 0 seconds</p>
-    <div class="resultParas">
-      <p class="guesses"></p>
-      <p class="lastResult"></p>
-      <p class="lowOrHi"></p>
-    </div>
-  </body>
-  </html>
+      </div>
+      <p id="timer">Time: 0 seconds</p>
+      <div class="resultParas">
+        <p class="guesses"></p>
+        <p class="lastResult"></p>
+        <p class="lowOrHi"></p>
+      </div>
+      <p id="message"></p>
+    </body>
+    </html>
