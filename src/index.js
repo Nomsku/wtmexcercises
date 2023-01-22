@@ -15,11 +15,11 @@ const renderMenu = (menu) => {
   const menuText = document.querySelector(".menuText");
   menuText.innerHTML = "";
   const list = document.createElement("ul");
-  for (const dish of menu) {
-    const li = document.createElement("li");
-    li.textContent = dish;
+  for (const meal of menu) {
+    const listItem = document.createElement("li");
+    listItem.textContent = meal;
 
-    list.appendChild(li);
+    list.appendChild(listItem);
   }
   menuText.append(list);
 };
@@ -27,7 +27,7 @@ const renderMenu = (menu) => {
 renderMenu(activeMenu);
 
 //Language change, 4
-const changeLan = (language) => {
+const changeLanguage = (language) => {
   if (language === "fi") {
     lang = "fi";
     activeMenu = coursesFi;
@@ -38,13 +38,13 @@ const changeLan = (language) => {
   renderMenu(activeMenu);
 };
 
-const lanButton = document.querySelector("#language");
+const languageButton = document.querySelector("#language");
 
-lanButton.addEventListener("click", () => {
+languageButton.addEventListener("click", () => {
   if (lang === "fi") {
-    changeLan("en");
+    changeLanguage("en");
   } else if (lang === "en") {
-    changeLan("fi");
+    changeLanguage("fi");
   }
 });
 
@@ -63,16 +63,16 @@ sortButton.addEventListener("click", () => {
 });
 
 //random dish, 6
-const getRandomDish = (menu) => {
-  const randomIndex = Math.floor(Math.random() * menu.length);
-  return menu[randomIndex];
+const randomMeal = (menu) => {
+  const random = Math.floor(Math.random() * menu.length);
+  return menu[random];
 };
 
 const randomButton = document.querySelector("#random");
 
 randomButton.addEventListener("click", () => {
-  const dish = getRandomDish(activeMenu);
+  const meal = randomMeal(activeMenu);
   const menuText2 = document.querySelector(".menuText2");
   menuText2.innerHTML = "";
-  menuText2.append(dish);
+  menuText2.append(meal);
 });
