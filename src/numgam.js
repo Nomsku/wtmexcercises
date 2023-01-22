@@ -1,7 +1,7 @@
 "use strict";
         
 const timeText = document.querySelector("#timer");
-let randomNumber = Math.floor(Math.random() * 100) + 1;
+let randomNumber = Math.floor(Math.random() (max - min + 1) + min);
 
 const guesses = document.querySelector('.guesses');
 const lastResult = document.querySelector('.lastResult');
@@ -9,10 +9,6 @@ const lowOrHi = document.querySelector('.lowOrHi');
         
 const guessSubmit = document.querySelector('.guessSubmit');
 const guessField = document.querySelector('.guessField');
-
-const startAgain = document.querySelector("#startAgain");
-const computerGuess = document.querySelector("#computerButton");
-const computerConfirm = document.querySelector("#computerConfirm");
 const min = 0;
 const max = 100;
 const maxGuesses = 10;
