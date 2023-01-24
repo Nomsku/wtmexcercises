@@ -179,10 +179,9 @@ const runAlgorithm = (times) => {
     // How many times to run the algorithm
     for (let i = 0; i < times; i++) {
       // Run the algorithm until it guesses the correct number
-      // Stop the loop if it takes more than 100 guesses (this is to prevent an infinite loop)
+      // Prevent infinite loop.
       while (true && currentNumberOfGuesses < 100) {
-        // Guess the number halfway between the current min and max
-        // Current min and max are updated after each guess depending on the result
+        // The guess is the average of  the current min and max
         let guess = parseInt(Math.floor((currentMin + currentMax) / 2));
   
         // This is to prevent the algorithm from getting stuck guessing 99
@@ -191,12 +190,10 @@ const runAlgorithm = (times) => {
         }
         lastGuess = guess;
   
-        // Check the guess
         let result = checkGuessComp(guess, true);
         currentNumberOfGuesses++;
         guessedNumbers.push(guess);
   
-        // Exit the loop if the guess is correct
         if (result === "correct") {
           results.push(currentNumberOfGuesses);
           currentNumberOfGuesses = 0;
@@ -211,7 +208,7 @@ const runAlgorithm = (times) => {
         }
       }
       
-    // Reset the values for the next run
+    // Reset the values between repetitions.
     currentMin = min;
     currentMax = max;
     currentNumberOfGuesses = 0;
@@ -257,10 +254,9 @@ guessSubmit.addEventListener("click", () => {
   }
 });
 
-// Show ui to enter how many times the algorithm should run
 
 
-// Check how many times to run the algorithm
+// how many times to run the algorithm
 computerConfirm.addEventListener("click", () => {
   const times = parseInt(input.value);
   input.value = "";
